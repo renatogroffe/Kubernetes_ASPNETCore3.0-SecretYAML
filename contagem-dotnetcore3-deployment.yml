@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contagem-dotnetcore3-deployment
+  labels:
+    app: contagem-dotnetcore3
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: contagem-dotnetcore3
+  template:
+    metadata:
+      labels:
+        app: contagem-dotnetcore3
+    spec:
+      containers:
+      - name: contagem-dotnetcore3
+        image: renatogroffe/apicontagem-3-0-alpine
+        env:
+          - name: TesteAmbiente
+            valueFrom:
+                secretKeyRef:
+                  name: teste-groffe-yaml
+                  key: VlTesteAmbiente
+        ports:
+        - containerPort: 80
